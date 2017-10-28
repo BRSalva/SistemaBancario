@@ -7,6 +7,7 @@ package br.com.copi;
 
 import br.com.copi.conexao.Conectar;
 import br.com.copi.telas.TelaLogin;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -21,6 +22,7 @@ public class Principal {
         //deletarAgencia();
         TelaLogin instanciaTelaLogin = new TelaLogin();
         instanciaTelaLogin.setVisible(true);
+       
     }
     
     public static boolean adicionarAgencia(String numero, String nome) {
@@ -63,14 +65,58 @@ public class Principal {
         Conectar.editarRegistro(tabela, id, colunas, valores);
     }
     
-    public static void deletarAgencia() {
+    public static boolean deletarAgencia(int id) {
         String tabela = "agencias";
+        
+        
+
+      return Conectar.deletarRegistro(tabela, id);
+    }
+    
+    public static ResultSet ListarAgencias() {
+        String tabela = "agencias";
+
+        List<String> colunas = new ArrayList<>();
+       
+        colunas.add("ativo");
+
+        List<String> valores = new ArrayList<>();
+        
+       valores.add("1");
+        return Conectar.buscarRegistro(tabela, colunas, valores);
+    }
+    
+    
+    public static void editarAgencias() {
+        String tabela = "agencias";
+
+        List<String> colunas = new ArrayList<>();
+        colunas.add("numero");
+        colunas.add("nome");
+
+        List<String> valores = new ArrayList<>();
         
         Scanner reader = new Scanner(System.in);
         
-        System.out.println("Digite o ID da Agência que deseja deletar:");
+        System.out.println("Digite o ID da Agência que deseja editar:");
         int id = reader.nextInt();
+        
+        System.out.println("Digite o número da Agência:");
+        String numero = reader.next();
+        valores.add(numero);
+        
+        System.out.println("Digite o nome da Agência:");
+        String nome = reader.next();
+        valores.add(nome);
 
-        Conectar.deletarRegistro(tabela, id);
+        Conectar.editarRegistro(tabela, id, colunas, valores);
+    }
+    
+    public static boolean deletarAgencias(int id) {
+        String tabela = "agencias";
+        
+        
+
+       return Conectar.deletarRegistro(tabela, id);
     }
 }
